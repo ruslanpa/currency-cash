@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+    <link rel="stylesheet" href="static/main.css"/>
+
+    <title>{{ title }}</title>
+</head>
+<body>
+{% for organization in organizations %}
+    <div class="organization">{{ organization.title }} {{ organization.contact_info() }} {{ organization.phone }}
+    {% for c in organization.currencies %}
+        <div class="currency">{{ c.info() }}</div>
+    {% endfor %}
+    </div>
+{% endfor %}
+</body>
+</html>
