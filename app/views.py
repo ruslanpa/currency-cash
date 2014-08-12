@@ -1,44 +1,40 @@
 __author__ = 'ruslanpa'
 
+import requests
+
 from app import app
 from flask import render_template
-from entities import Organization, Currency
-
-import requests
+from utils import create_currencies, create_cities
 
 
 @app.route("/")
 @app.route("/index")
 def index():
     context = requests.get('http://resources.finance.ua/ua/public/currency-cash.json')
-
-    json_file = context.json()
-    organizations = get_organizations(json_file)
-
-    return render_template("index.html", title="Currencies", organizations=organizations)
+    organizations = create_organizations(context.json())
+    return render_template('index.html', title='Currencies', organizations=organizations)
 
 
-def get_cities(json_file):
-    cities = {}
-    for i in json_file['cities']:
-        cities[i] = json_file['cities'][i]
-    return cities
-
-
-def get_organizations(json_file):
-    cities = get_cities(json_file)
+def create_organizations(json_object):
+    cities = create_cities(json_object)
     organizations = []
-    for item in json_file['organizations']:
-        organization = Organization(item['title'], item['address'], item['phone'])
-        organization.currencies = get_currencies(item)
-        organization.city = cities[item['cityId']]
-        organizations.append(organization)
+    for organization in json_object['organizations']:
+        new_organization = Organization(cities, **organization)
+        organizations.append(new_organization)
     return organizations
 
 
-def get_currencies(json_file):
-    currencies = []
-    for i in json_file['currencies']:
-        currency = Currency(i, json_file['currencies'][i]['ask'], json_file['currencies'][i]['bid'])
-        currencies.append(currency)
-    return currencies
+class Organization(object):
+
+    def __init__(self, cities, **args):
+        for name, value in args.items():
+            if name == 'title':
+                self.title = value
+            elif name == 'address':
+                self.address = value
+            elif name == 'phone':
+                self.phone = value
+            elif name == 'currencies':
+                self.currencies = create_currencies(value)
+            elif name == 'cityId':
+                self.city = cities[value]

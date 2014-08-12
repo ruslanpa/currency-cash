@@ -10,11 +10,12 @@
 </head>
 <body>
 {% for organization in organizations %}
-    <div class="organization">{{ organization.title }} {{ organization.contact_info() }} {{ organization.phone }}
-    {% for c in organization.currencies %}
-        <div class="currency">{{ c.info() }}</div>
+<div class="organization">
+    {{ organization.title }} {{ organization.city }} {{ organization.address }} {{ organization.phone }}
+    {% for name, value in organization.currencies.items() %}
+    <div class="currency">{{ name, value}}</div>
     {% endfor %}
-    </div>
+</div>
 {% endfor %}
 </body>
 </html>
