@@ -1,9 +1,9 @@
 __author__ = 'ruslanpa'
 
 import requests
+from flask import render_template
 
 from app import app
-from flask import render_template
 from utils import create_currencies, create_cities
 
 
@@ -11,8 +11,12 @@ from utils import create_currencies, create_cities
 @app.route("/index")
 def index():
     context = requests.get('http://resources.finance.ua/ua/public/currency-cash.json')
-    organizations = create_organizations(context.json())
-    return render_template('index.html', title='Currencies', organizations=organizations)
+    if context.status_code == 200:
+        return render_template('index.html',
+                               title='Currencies',
+                               organizations=create_organizations(context.json()))
+    else:
+        return render_template('404.html', title='Page not found')
 
 
 def create_organizations(json_object):
@@ -25,7 +29,6 @@ def create_organizations(json_object):
 
 
 class Organization(object):
-
     def __init__(self, cities, **args):
         for name, value in args.items():
             if name == 'title':
