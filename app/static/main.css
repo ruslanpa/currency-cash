@@ -1,3 +1,18 @@
+.navbar-brand {
+    text-transform: uppercase;
+}
+
+.center {
+    width: 960px;
+    height: 720px;
+    margin: 60px auto 0;
+}
+
+#map-canvas {
+    width: 960px;
+    height: 720px;
+}
+
 .organization {
     color: #12a9ed;
     margin: 10px;
