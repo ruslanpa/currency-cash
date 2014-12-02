@@ -35,7 +35,7 @@ def filter_currency():
         return render_template('filter.html',
                                organizations=create_organizations(context.json()))
     else:
-        return render_template('404.html')
+        return render_template('error.html')
 
 
 def create_organizations(json_object):
