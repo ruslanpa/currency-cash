@@ -4,7 +4,7 @@ import requests
 from flask import render_template, redirect
 
 from app import app
-from utils import create_currencies, create_cities
+from helpers import create_currencies, create_cities
 
 
 @app.route("/")
