@@ -20,18 +20,8 @@ def page_not_found(error):
 
 @app.route("/map")
 def show_map():
-    return render_template('map.html')
-
-
-@app.route("/about")
-def about():
-    return render_template('about.html')
-
-
-@app.route("/filter")
-def filter_currency():
     context = requests.get('http://resources.finance.ua/ua/public/currency-cash.json')
     if context.status_code == 200:
-        return render_template('filter.html', organizations=create_places(context.json()))
+        return render_template('map.html', places=create_places(context.json()))
     else:
-        return render_template('error.html')
+        return render_template('404.html', message=context.reason)
