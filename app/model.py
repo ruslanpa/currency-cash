@@ -2,9 +2,6 @@ __author__ = 'ruslanpa'
 
 
 class Place(object):
-    currencies = []
-    city = 'undefined'
-
     def __init__(self, **args):
         for name, value in args.items():
             if name == 'title':
@@ -17,25 +14,15 @@ class Place(object):
                 self.cityId = value
             else:
                 pass
+        self.currencies = []
+        self.city = 'undefined'
 
 
 class Currency(object):
-    def __init__(self, bid_ask=None):
-        if not bid_ask:
-            bid_ask = []
-        self.bid_ask = bid_ask
+    def __init__(self, symbol, bid, ask):
+        self.symbol = symbol
+        self.bid = bid
+        self.ask = ask
 
-    def bid(self):
-        if self.__bid_ask_exist():
-            return self.bid_ask[0]
-        else:
-            return 0
-
-    def ask(self):
-        if self.__bid_ask_exist():
-            return self.bid_ask[-1]
-        else:
-            return 0
-
-    def __bid_ask_exist(self):
-        return len(self.bid_ask) == 2
+    def __str__(self):
+        return "{} [{}, {}]".format(self.symbol, self.bid, self.ask)

@@ -3,8 +3,8 @@
 {% for organization in organizations %}
 <div class="organization">
     {{ organization.title }} {{ organization.city }} {{ organization.address }} {{ organization.phone }}
-    {% for name, value in organization.currencies.items() %}
-    <div class="currency">{{ name, value }}</div>
+    {% for currency in organization.currencies %}
+    <div class="currency">{{ currency }}</div>
     {% endfor %}
 </div>
 {% endfor %}
