@@ -4,7 +4,7 @@ from os.path import join, dirname
 
 from setuptools import setup, find_packages
 
-import app
+import app, test
 
 
 setup(name='currency_cash',
